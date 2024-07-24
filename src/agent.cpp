@@ -24,9 +24,9 @@
 #include "constants.h"
 #include <iostream>
 #include <map>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 
 Agent::Agent() {
   nrPointingAtMe = 1;
