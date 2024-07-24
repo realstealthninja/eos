@@ -21,6 +21,7 @@
 
 #include <algorithm>
 #include <random>
+#include <map>
 #include <cstdio>
 #include <cstdlib>
 #include <sstream>

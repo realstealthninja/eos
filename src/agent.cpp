@@ -195,6 +195,7 @@ void Agent::setupPhenotype() {
 }
 void Agent::setupMegaPhenotype(int howMany) {
   int i, j;
+  HMMU* hmmu;
 
   if (!hmmus.empty()) {
     for (auto & hmmu : hmmus) {

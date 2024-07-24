@@ -670,7 +670,7 @@ void Game::applyBoundary(double &positionVal) {
 double Game::sum(const std::vector<double>& values) {
   double sum = 0.0;
 
-  for (double & value : values) {
+  for (const double& value : values) {
     sum += value;
   }
 
@@ -687,7 +687,7 @@ double Game::variance(const std::vector<double>& values) {
   double sumSqDist = 0.0;
   double mean = average(values);
 
-  for (double & value : values) {
+  for (const double& value : values) {
     sumSqDist += pow(value - mean, 2.0);
   }
 
