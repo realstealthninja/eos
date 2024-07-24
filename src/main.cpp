@@ -26,7 +26,7 @@
 #include <sstream>
 #include <ctime>
 #include <cstring>
-#include <time.h>
+#include <ctime>
 #include <iostream>
 #include <dirent.h>
 

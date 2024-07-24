@@ -14,7 +14,7 @@
 */
 
 #include "helper.h"
-#include <errno.h>
+#include <cerrno>
 #include <sys/socket.h>
 #include <unistd.h>
 
