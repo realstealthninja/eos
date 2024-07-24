@@ -109,7 +109,7 @@ void Agent::loadAgentWithTrailer(char *filename) {
 #endif
 }
 
-void Agent::ampUpStartCodons(void) {
+void Agent::ampUpStartCodons() {
   int i, j;
   for (i = 0; i < genome.size(); i++)
     genome[i] = rand() & 255;
@@ -167,7 +167,7 @@ void Agent::inherit(Agent *from, double mutationRate, int theTime) {
 #endif
 }
 
-void Agent::setupPhenotype(void) {
+void Agent::setupPhenotype() {
   int i;
   HMMU *hmmu;
   if (hmmus.size() != 0) {
@@ -228,11 +228,11 @@ void Agent::setupMegaPhenotype(int howMany) {
   }
 }
 
-void Agent::retire(void) { retired = true; }
+void Agent::retire() { retired = true; }
 
-unsigned char *Agent::getStatesPointer(void) { return states; }
+unsigned char *Agent::getStatesPointer() { return states; }
 
-void Agent::resetBrain(void) {
+void Agent::resetBrain() {
   for (int i = 0; i < maxNodes * swarmSize; i++) {
     states[i] = 0;
   }
@@ -241,7 +241,7 @@ void Agent::resetBrain(void) {
 #endif
 }
 
-void Agent::updateStates(void) {
+void Agent::updateStates() {
   for (std::vector<HMMU *>::iterator it = hmmus.begin(), end = hmmus.end();
        it != end; ++it) {
     (*it)->update(&states[0], &newStates[0]);
@@ -254,7 +254,7 @@ void Agent::updateStates(void) {
   ++totalSteps;
 }
 
-void Agent::showBrain(void) {
+void Agent::showBrain() {
   for (int i = 0; i < maxNodes; i++) {
     std::cout << (int)states[i];
   }
@@ -276,7 +276,7 @@ void Agent::initialize(int x, int y, int d) {
   */
 }
 
-Agent *Agent::findLMRCA(void) {
+Agent *Agent::findLMRCA() {
   Agent *r, *d;
   if (ancestor == nullptr)
     return nullptr;
@@ -330,7 +330,7 @@ void Agent::saveLOD(FILE *statsFile,FILE *genomeFile){
 
 }*/
 
-void Agent::showPhenotype(void) {
+void Agent::showPhenotype() {
   for (int i = 0; i < hmmus.size(); i++)
     hmmus[i]->show();
   std::cout << "------" << std::endl;

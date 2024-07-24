@@ -46,7 +46,7 @@ public:
 	void setup(std::vector<uint8_t> &genome, int start);
 	void setupQuick(std::vector<uint8_t> &genome, int start);
 	void update(uint8_t *states, uint8_t *newStates);
-	void show(void);
+	void show();
 	
 };
 

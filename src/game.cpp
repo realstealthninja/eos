@@ -932,7 +932,7 @@ void Experiment::loadExperiment(char *filename) {
   fclose(f);
 }
 
-void Experiment::showExperimentProtokoll(void) {
+void Experiment::showExperimentProtokoll() {
   int i, j, k;
   printf("drop directions: %i\n", drops());
   for (i = 0; i < drops(); i++) {
@@ -962,8 +962,8 @@ void Experiment::showExperimentProtokoll(void) {
         printf("%i  %i  %i  %i\n", i, j, k, (int)shouldHit[i][j][k]);
 }
 
-int Experiment::drops(void) { return (int)dropSequences.size(); }
+int Experiment::drops() { return (int)dropSequences.size(); }
 
-int Experiment::sizes(void) { return (int)sizeSequences.size(); }
+int Experiment::sizes() { return (int)sizeSequences.size(); }
 
-int Experiment::selves(void) { return (int)selfSequences.size(); }
+int Experiment::selves() { return (int)selfSequences.size(); }

@@ -56,7 +56,7 @@ struct    sockaddr_in servaddr;  /*  socket address structure  */
 char      buffer[MAX_LINE];      /*  character buffer          */
 char     *endptr;                /*  for strtol()              */
 
-void    setupBroadcast(void);
+void    setupBroadcast();
 void    doBroadcast(std::string data);
 std::string  findBestRun(Agent *swarmAgent, Agent *predatorAgent);
 
@@ -650,7 +650,7 @@ std::string findBestRun(Agent *swarmAgent, Agent *predatorAgent)
     return bestString;
 }
 
-void setupBroadcast(void)
+void setupBroadcast()
 {
     port = ECHO_PORT;
 	if ( (list_s = socket(AF_INET, SOCK_STREAM, 0)) < 0 )

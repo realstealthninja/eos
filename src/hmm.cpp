@@ -190,7 +190,7 @@ void HMMU::update(uint8_t *states, uint8_t *newStates) {
 #endif
 }
 
-void HMMU::show(void) {
+void HMMU::show() {
   int i, j;
   std::cout << "INS: ";
   for (i = 0; i < ins.size(); i++)

@@ -41,10 +41,10 @@ public:
     std::vector<std::vector<std::vector<bool> > > shouldHit;
 
     void loadExperiment(char *filename);
-    void showExperimentProtokoll(void);
-    int drops(void);
-    int sizes(void);
-    int selves(void);
+    void showExperimentProtokoll();
+    int drops();
+    int sizes();
+    int selves();
 };
 
 class Game{

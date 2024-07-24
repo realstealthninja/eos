@@ -72,23 +72,23 @@ public:
 	void setupRandomAgent(int nucleotides);
 	void loadAgent(char* filename);
 	void loadAgentWithTrailer(char* filename);
-	void setupPhenotype(void);
+	void setupPhenotype();
     void setupMegaPhenotype(int howMany);
 	void inherit(Agent *from, double mutationRate, int theTime);
-	uint8_t* getStatesPointer(void);
-	void updateStates(void);
-	void resetBrain(void);
-	void ampUpStartCodons(void);
-	void showBrain(void);
-	void showPhenotype(void);
+	uint8_t* getStatesPointer();
+	void updateStates();
+	void resetBrain();
+	void ampUpStartCodons();
+	void showBrain();
+	void showPhenotype();
 	void saveToDot(const char *filename, bool predator);
 	void saveToDotFullLayout(char *filename);
 	
 	void initialize(int x, int y, int d);
-	Agent* findLMRCA(void);
+	Agent* findLMRCA();
 	void saveFromLMRCAtoNULL(FILE *statsFile, FILE *genomeFile);
 
-	void retire(void);
+	void retire();
 	void setupDots(int x, int y,double spacing);
 	void saveLogicTable(const char *filename);
 	void saveGenome(const char *filename);
