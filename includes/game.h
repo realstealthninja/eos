@@ -42,9 +42,9 @@ public:
 
     void loadExperiment(char *filename);
     void showExperimentProtokoll();
-    int drops();
-    int sizes();
-    int selves();
+    int drops() const;
+    int sizes() const;
+    int selves() const;
 };
 
 class Game{
@@ -56,28 +56,28 @@ public:
     Game();
     ~Game();
 
-    double calcDistanceSquared(double fromX, double fromY, double toX, double toY);
-    double calcAngle(double fromX, double fromY, double fromAngle, double toX, double toY);
-    void calcSwarmCenter(double preyX[], double preyY[], bool preyDead[], double& preyCenterX, double& preyCenterY);
+    static double calcDistanceSquared(double fromX, double fromY, double toX, double toY);
+    static double calcAngle(double fromX, double fromY, double fromAngle, double toX, double toY);
+    void calcSwarmCenter(const double preyX[], const double preyY[], const bool preyDead[], double& preyCenterX, double& preyCenterY);
     void recalcPredDistTable(double preyX[], double preyY[], bool preyDead[],
                              double predX, double predY,
                              double predDists[swarmSize]);
-    void recalcPredAndPreyDistTable(double preyX[], double preyY[], bool preyDead[],
+    void recalcPredAndPreyDistTable(double preyX[], double preyY[], const bool preyDead[],
                                     double predX, double predY,
                                     double predDists[swarmSize], double preyDists[swarmSize][swarmSize]);
-    void applyBoundary(double& positionVal);
-    double sum(std::vector<double> values);
-    double average(std::vector<double> values);
-    double variance(std::vector<double> values);
-    double mutualInformation(std::vector<int> A, std::vector<int>B);
-    double ei(std::vector<int> A, std::vector<int> B,int theMask);
+    static void applyBoundary(double& positionVal);
+    static double sum(const std::vector<double>& values);
+    double average(const std::vector<double>& values);
+    double variance(const std::vector<double>& values);
+    static double mutualInformation(std::vector<int> A, std::vector<int>B);
+    static double ei(std::vector<int> A, std::vector<int> B,int theMask);
     double computeAtomicPhi(std::vector<int>A,int states);
     double predictiveI(std::vector<int>A);
     double nonPredictiveI(std::vector<int>A);
     double predictNextInput(std::vector<int>A);
     double computeR(std::vector<std::vector<int> > table,int howFarBack);
     double computeOldR(std::vector<std::vector<int> > table);
-    double entropy(std::vector<int> list);
+    static double entropy(std::vector<int> list);
     int neuronsConnectedToPreyRetina(Agent *agent);
     int neuronsConnectedToPredatorRetina(Agent* agent);
 

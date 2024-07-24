@@ -48,22 +48,22 @@ public:
 	Agent *ancestor;
     Agent *predator;
 	uint32_t nrPointingAtMe;
-	uint8_t states[maxNodes*swarmSize], newStates[maxNodes*swarmSize];
-	double fitness,convFitness;
+	uint8_t states[maxNodes*swarmSize]{}, newStates[maxNodes*swarmSize]{};
+	double fitness{},convFitness{};
 	std::vector<double> fitnesses;
 	int food;
 	
-	double xPos, yPos, direction;
-	double sX,sY;
+	double xPos{}, yPos{}, direction{};
+	double sX{},sY{};
 
-	bool foodAlreadyFound;
+	bool foodAlreadyFound{};
 
-	int steps,bestSteps,totalSteps;
+	int steps{},bestSteps,totalSteps;
 	int ID,nrOfOffspring;
 	bool saved;
 	bool retired;
-	int born;
-	int correct,incorrect;
+	int born{};
+	int correct{}, incorrect{};
 	
 	Agent();
 
@@ -85,7 +85,7 @@ public:
 	void saveToDotFullLayout(char *filename);
 	
 	void initialize(int x, int y, int d);
-	Agent* findLMRCA();
+	Agent* findLMRCA() const;
 	void saveFromLMRCAtoNULL(FILE *statsFile, FILE *genomeFile);
 
 	void retire();

@@ -29,15 +29,15 @@
 #include <cstdlib>
 
 // simulation-specific constants
-#define preyVisionRange 100.0 * 100.0
-#define preyVisionAngle 180.0 / 2.0
-#define predatorVisionRange 200.0 * 200.0
+#define preyVisionRange (100.0 * 100.0)
+#define preyVisionAngle (180.0 / 2.0)
+#define predatorVisionRange (200.0 * 200.0)
 #define preySensors 12
 #define predatorSensors 12
 #define totalStepsInSimulation 2000
 #define gridX 256.0
 #define gridY 256.0
-#define killDist 5.0 * 5.0
+#define killDist (5.0 * 5.0)
 #define boundaryDist 250.0
 
 // precalculated lookup tables for the game
@@ -61,7 +61,7 @@ Game::Game() {
   }*/
 }
 
-Game::~Game() {}
+Game::~Game() = default;
 
 // runs the simulation for the given agent(s)
 std::string Game::executeGame(Agent *swarmAgent, Agent *predatorAgent,
@@ -175,7 +175,7 @@ std::string Game::executeGame(Agent *swarmAgent, Agent *predatorAgent,
     /*       END OF REPORT STRING CREATION       */
 
     /*       SAVE DATA FOR THE LOD FILE       */
-    if (data_file != NULL) {
+    if (data_file != nullptr) {
       // calculate bounding box size for this update
       // lu = Left Uppermost point
       // rb = Right Bottommost point
@@ -214,7 +214,7 @@ std::string Game::executeGame(Agent *swarmAgent, Agent *predatorAgent,
       for (int i = 0; i < swarmSize; ++i) {
         if (!preyDead[i]) {
           // find closest agent to agent i
-          double shortestDist = DBL_MAX;
+          auto shortestDist = DBL_MAX;
 
           for (int j = 0; j < swarmSize; ++j) {
             if (!preyDead[j] && i != j) {
@@ -543,7 +543,7 @@ std::string Game::executeGame(Agent *swarmAgent, Agent *predatorAgent,
   }
 
   // output to data file, if provided
-  if (data_file != NULL) {
+  if (data_file != nullptr) {
     fprintf(
         data_file, "%d,%f,%f,%d,%f,%f,%f,%f,%i,%i,%i,%f,%i\n",
         swarmAgent->born,       // update born (prey)
@@ -601,7 +601,7 @@ double Game::calcAngle(double fromX, double fromY, double fromAngle, double toX,
 }
 
 // calculates the center of the swarm and stores it in (cX, cY)
-void Game::calcSwarmCenter(double preyX[], double preyY[], bool preyDead[],
+void Game::calcSwarmCenter(const double preyX[], const double preyY[], const bool preyDead[],
                            double &preyCenterX, double &preyCenterY) {
   int aliveCount = 0;
   preyCenterX = 0.0;
@@ -632,7 +632,7 @@ void Game::recalcPredDistTable(double preyX[], double preyY[], bool preyDead[],
 
 // recalculates the predator and prey distance lookup tables
 void Game::recalcPredAndPreyDistTable(double preyX[], double preyY[],
-                                      bool preyDead[], double predX,
+                                      const bool preyDead[], double predX,
                                       double predY, double predDists[swarmSize],
                                       double preyDists[swarmSize][swarmSize]) {
   for (int i = 0; i < swarmSize; ++i) {
@@ -667,30 +667,28 @@ void Game::applyBoundary(double &positionVal) {
 }
 
 // sums a vector of values
-double Game::sum(std::vector<double> values) {
+double Game::sum(const std::vector<double>& values) {
   double sum = 0.0;
 
-  for (std::vector<double>::iterator i = values.begin(); i != values.end();
-       ++i) {
-    sum += *i;
+  for (double & value : values) {
+    sum += value;
   }
 
   return sum;
 }
 
 // averages a vector of values
-double Game::average(std::vector<double> values) {
+double Game::average(const std::vector<double>& values) {
   return sum(values) / (double)values.size();
 }
 
 // computes the variance of a vector of values
-double Game::variance(std::vector<double> values) {
+double Game::variance(const std::vector<double>& values) {
   double sumSqDist = 0.0;
   double mean = average(values);
 
-  for (std::vector<double>::iterator i = values.begin(); i != values.end();
-       ++i) {
-    sumSqDist += pow(*i - mean, 2.0);
+  for (double & value : values) {
+    sumSqDist += pow(value - mean, 2.0);
   }
 
   return sumSqDist /= (double)values.size();
@@ -825,9 +823,9 @@ double Game::predictiveI(std::vector<int> A) {
   std::vector<int> S, I;
   S.clear();
   I.clear();
-  for (int i = 0; i < A.size(); i++) {
-    S.push_back((A[i] >> 12) & 15);
-    I.push_back(A[i] & 3);
+  for (int i : A) {
+    S.push_back((i >> 12) & 15);
+    I.push_back(i & 3);
   }
   return mutualInformation(S, I);
 }
@@ -836,9 +834,9 @@ double Game::nonPredictiveI(std::vector<int> A) {
   std::vector<int> S, I;
   S.clear();
   I.clear();
-  for (int i = 0; i < A.size(); i++) {
-    S.push_back((A[i] >> 12) & 15);
-    I.push_back(A[i] & 3);
+  for (int i : A) {
+    S.push_back((i >> 12) & 15);
+    I.push_back(i & 3);
   }
   return entropy(I) - mutualInformation(S, I);
 }
@@ -847,9 +845,9 @@ double Game::predictNextInput(std::vector<int> A) {
   std::vector<int> S, I;
   S.clear();
   I.clear();
-  for (int i = 0; i < A.size(); i++) {
-    S.push_back((A[i] >> 12) & 15);
-    I.push_back(A[i] & 3);
+  for (int i : A) {
+    S.push_back((i >> 12) & 15);
+    I.push_back(i & 3);
   }
   S.erase(S.begin());
   I.erase(I.begin() + I.size() - 1);
@@ -861,7 +859,7 @@ void Game::loadExperiment(char *filename) {
 }
 
 int Game::neuronsConnectedToPreyRetina(Agent *agent) {
-  Agent *A = new Agent;
+  auto *A = new Agent;
   int i, j, c = 0;
   A->genome = agent->genome;
   A->setupPhenotype();
@@ -874,7 +872,7 @@ int Game::neuronsConnectedToPreyRetina(Agent *agent) {
 }
 
 int Game::neuronsConnectedToPredatorRetina(Agent *agent) {
-  Agent *A = new Agent;
+  auto *A = new Agent;
   int i, j, c = 0;
   A->genome = agent->genome;
   A->setupPhenotype();
@@ -962,8 +960,8 @@ void Experiment::showExperimentProtokoll() {
         printf("%i  %i  %i  %i\n", i, j, k, (int)shouldHit[i][j][k]);
 }
 
-int Experiment::drops() { return (int)dropSequences.size(); }
+int Experiment::drops() const { return (int)dropSequences.size(); }
 
-int Experiment::sizes() { return (int)sizeSequences.size(); }
+int Experiment::sizes() const { return (int)sizeSequences.size(); }
 
-int Experiment::selves() { return (int)selfSequences.size(); }
+int Experiment::selves() const { return (int)selfSequences.size(); }

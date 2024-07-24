@@ -51,13 +51,13 @@ Agent::Agent() {
 }
 
 Agent::~Agent() {
-  for (int i = 0; i < hmmus.size(); ++i) {
-    delete hmmus[i];
+  for (auto & hmmu : hmmus) {
+    delete hmmu;
   }
 
-  if (predator != nullptr) {
-    delete predator;
-  }
+
+  delete predator;
+
 
   if (ancestor != nullptr) {
     ancestor->nrPointingAtMe--;
@@ -170,7 +170,7 @@ void Agent::inherit(Agent *from, double mutationRate, int theTime) {
 void Agent::setupPhenotype() {
   int i;
   HMMU *hmmu;
-  if (hmmus.size() != 0) {
+  if (!hmmus.empty()) {
     for (i = 0; i < hmmus.size(); i++) {
       delete hmmus[i];
     }
@@ -195,12 +195,10 @@ void Agent::setupPhenotype() {
 }
 void Agent::setupMegaPhenotype(int howMany) {
   int i, j;
-  HMMU *hmmu;
 
-  if (hmmus.size() > 0) {
-    for (std::vector<HMMU *>::iterator it = hmmus.begin(), end = hmmus.end();
-         it != end; ++it) {
-      delete *it;
+  if (!hmmus.empty()) {
+    for (auto & hmmu : hmmus) {
+      delete hmmu;
     }
   }
   hmmus.clear();
@@ -233,8 +231,8 @@ void Agent::retire() { retired = true; }
 unsigned char *Agent::getStatesPointer() { return states; }
 
 void Agent::resetBrain() {
-  for (int i = 0; i < maxNodes * swarmSize; i++) {
-    states[i] = 0;
+  for (uint8_t& state : states) {
+    state = 0;
   }
 #ifdef useANN
   ANN->resetBrain();
@@ -242,9 +240,8 @@ void Agent::resetBrain() {
 }
 
 void Agent::updateStates() {
-  for (std::vector<HMMU *>::iterator it = hmmus.begin(), end = hmmus.end();
-       it != end; ++it) {
-    (*it)->update(&states[0], &newStates[0]);
+  for (auto & hmmu : hmmus) {
+    hmmu->update(&states[0], &newStates[0]);
   }
 
   for (int i = 0; i < maxNodes * swarmSize; i++) {
@@ -276,7 +273,7 @@ void Agent::initialize(int x, int y, int d) {
   */
 }
 
-Agent *Agent::findLMRCA() {
+Agent *Agent::findLMRCA() const {
   Agent *r, *d;
   if (ancestor == nullptr)
     return nullptr;
@@ -301,8 +298,8 @@ void Agent::saveFromLMRCAtoNULL(FILE *statsFile, FILE *genomeFile) {
             (int)genome.size(), fitness, bestSteps,
             (float)totalSteps / (float)nrOfOffspring, correct, incorrect);
     fprintf(genomeFile, "%i	", ID);
-    for (int i = 0; i < genome.size(); i++)
-      fprintf(genomeFile, "	%i", genome[i]);
+    for (uint8_t i : genome)
+      fprintf(genomeFile, "	%i", i);
     fprintf(genomeFile, "\n");
     saved = true;
   }
@@ -331,8 +328,8 @@ void Agent::saveLOD(FILE *statsFile,FILE *genomeFile){
 }*/
 
 void Agent::showPhenotype() {
-  for (int i = 0; i < hmmus.size(); i++)
-    hmmus[i]->show();
+  for (auto & hmmu : hmmus)
+    hmmu->show();
   std::cout << "------" << std::endl;
 }
 
@@ -543,7 +540,7 @@ void Agent::saveLogicTable(const char *filename) {
       // all repeats completed; determine most common output
       if (repeat == (NUM_REPEATS - 1)) {
         std::map<std::vector<int>, int>::iterator it;
-        std::map<std::vector<int>, int>::iterator mostCommonOutput =
+        auto mostCommonOutput =
             outputCounts.begin();
 
         for (it = outputCounts.begin(); it != outputCounts.end(); ++it) {
@@ -564,8 +561,8 @@ void Agent::saveLogicTable(const char *filename) {
 void Agent::saveGenome(const char *filename) {
   FILE *f = fopen(filename, "w");
 
-  for (int i = 0, end = (int)genome.size(); i < end; ++i) {
-    fprintf(f, "%i	", genome[i]);
+  for (uint8_t i : genome) {
+    fprintf(f, "%i	", i);
   }
 
   fprintf(f, "\n");
