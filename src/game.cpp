@@ -26,32 +26,36 @@
 #include <cmath>
 #include <set>
 #include <cstdio>
-#include <cstdlib>
 
 // simulation-specific constants
-#define preyVisionRange (100.0 * 100.0)
-#define preyVisionAngle (180.0 / 2.0)
-#define predatorVisionRange (200.0 * 200.0)
-#define preySensors 12
-#define predatorSensors 12
-#define totalStepsInSimulation 2000
-#define gridX 256.0
-#define gridY 256.0
-#define killDist (5.0 * 5.0)
-#define boundaryDist 250.0
+constexpr double preyVisionRange =  (100.0 * 100.0);
+constexpr double preyVisionAngle = (180.0 / 2.0);
+constexpr double predatorVisionRange = (200.0 * 200.0);
+constexpr double killDist =  (5.0 * 5.0);
+
+const int preySensors = 12;
+const int predatorSensors = 12;
+const int totalStepsInSimulation = 2000;
+
+const double gridX  = 256.0;
+const double gridY = 256.0;
+const double boundaryDist = 250.0;
 
 // precalculated lookup tables for the game
 double cosLookup[360];
 double sinLookup[360];
 // double atan2Lookup[800][800];
 
+constexpr void generate_lookup() {
+  for (int i = 0; i < 360; ++i) {
+    cosLookup[i] = std::cos((double)i * (cPI / 180.0));
+    sinLookup[i] = std::sin((double)i * (cPI / 180.0));
+  }
+}
+
 Game::Game() {
   // fill lookup tables
-  for (int i = 0; i < 360; ++i) {
-    cosLookup[i] = cos((double)i * (cPI / 180.0));
-    sinLookup[i] = sin((double)i * (cPI / 180.0));
-  }
-
+  generate_lookup();
   /*for (int i = 0; i < 800; ++i)
   {
       for (int j = 0; j < 800; ++j)
