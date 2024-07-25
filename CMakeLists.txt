@@ -9,3 +9,7 @@ add_compile_options(-Wall -Wextra -Wpedantic -O3)
 add_executable(${PROJECT_NAME} src/main.cpp src/hmm.cpp src/helper.cpp src/game.cpp src/agent.cpp)
 
 target_include_directories(${PROJECT_NAME} PRIVATE includes/)
+
+add_subdirectory(extern/gcem)
+
+target_link_libraries(${PROJECT_NAME} gcem)
