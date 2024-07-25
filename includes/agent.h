@@ -30,8 +30,7 @@
 
 static int masterID = 0;
 
-class Dot{
-public:
+struct Dot{
 	double xPos, yPos;
 };
 
@@ -39,7 +38,7 @@ public:
 class Agent{
 public:
 	std::vector<HMMU*> hmmus;
-	std::vector<unsigned char> genome;
+	std::vector<uint8_t> genome;
 	std::vector<Dot> dots;
 #ifdef useANN
 	tANN *ANN;
