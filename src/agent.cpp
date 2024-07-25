@@ -22,11 +22,11 @@
 #include "agent.h"
 
 #include "constants.h"
-#include <iostream>
-#include <map>
 #include <cmath>
+#include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <map>
 
 Agent::Agent() {
   nrPointingAtMe = 1;
@@ -114,7 +114,7 @@ void Agent::ampUpStartCodons() {
   for (i = 0; i < genome.size(); i++)
     genome[i] = rand() & 255;
   for (i = 0; i < 4; i++) {
-    j = rand() % ((int)genome.size() - 100);
+    j = rand() % (static_cast<int>(genome.size()) - 100);
     genome[j] = 42;
     genome[j + 1] = (255 - 42);
     for (int k = 2; k < 20; k++)
@@ -123,7 +123,7 @@ void Agent::ampUpStartCodons() {
 }
 
 void Agent::inherit(Agent *from, double mutationRate, int theTime) {
-  int nucleotides = (int)from->genome.size();
+  int nucleotides = static_cast<int>(from->genome.size());
   int i, s, o, w;
   // double localMutationRate=4.0/from->genome.size();
   std::vector<unsigned char> buffer;
@@ -146,8 +146,8 @@ void Agent::inherit(Agent *from, double mutationRate, int theTime) {
     if ((randDouble < 0.05) && (genome.size() < 20000)) {
       // duplication
       w = 15 + rand() & 511;
-      s = rand() % ((int)genome.size() - w);
-      o = rand() % (int)genome.size();
+      s = rand() % (static_cast<int>(genome.size()) - w);
+      o = rand() % static_cast<int>(genome.size());
       buffer.clear();
       buffer.insert(buffer.begin(), genome.begin() + s, genome.begin() + s + w);
       genome.insert(genome.begin() + o, buffer.begin(), buffer.end());
@@ -155,7 +155,7 @@ void Agent::inherit(Agent *from, double mutationRate, int theTime) {
     if ((randDouble < 0.02) && (genome.size() > 1000)) {
       // deletion
       w = 15 + rand() & 511;
-      s = rand() % ((int)genome.size() - w);
+      s = rand() % (static_cast<int>(genome.size()) - w);
       genome.erase(genome.begin() + s, genome.begin() + s + w);
     }
   }
@@ -254,7 +254,7 @@ void Agent::updateStates() {
 
 void Agent::showBrain() {
   for (int i = 0; i < maxNodes; i++) {
-    std::cout << (int)states[i];
+    std::cout << static_cast<int>(states[i]);
   }
   std::cout << std::endl;
 }
@@ -296,7 +296,7 @@ void Agent::saveFromLMRCAtoNULL(FILE *statsFile, FILE *genomeFile) {
   if (!saved) {
     fprintf(statsFile,
             "%i	%i	%i	%f	%i	%f	%i	%i\n", ID, born,
-            (int)genome.size(), fitness, bestSteps,
+            static_cast<int>(genome.size()), fitness, bestSteps,
             (float)totalSteps / (float)nrOfOffspring, correct, incorrect);
     fprintf(genomeFile, "%i	", ID);
     for (uint8_t i : genome)
@@ -315,11 +315,11 @@ void Agent::saveLOD(FILE *statsFile,FILE *genomeFile){
 #ifdef useANN
         fprintf(genomeFile,"%i	",ID);
         fprintf(statsFile,"%i	%i	%i	%f	%i	%f	%i
-%i\n",ID,born,(int)genome.size(),fitness,bestSteps,(float)totalSteps/(float)nrOfOffspring,correct,incorrect);
+%i\n",ID,born,static_cast<int>genome.size(),fitness,bestSteps,(float)totalSteps/(float)nrOfOffspring,correct,incorrect);
         ANN->saveLOD(genomeFile);
 #else
         fprintf(statsFile,"%i	%i	%i	%f	%i	%f	%i
-%i\n",ID,born,(int)genome.size(),fitness,bestSteps,(float)totalSteps/(float)nrOfOffspring,correct,incorrect);
+%i\n",ID,born,static_cast<int>genome.size(),fitness,bestSteps,(float)totalSteps/(float)nrOfOffspring,correct,incorrect);
         fprintf(genomeFile,"%i	",ID);
         for(int i=0;i<genome.size();i++)
                 fprintf(genomeFile,"	%i",genome[i]);
@@ -478,18 +478,18 @@ void Agent::saveToDotFullLayout(char *filename) {
 void Agent::setupDots(int x, int y, double spacing) {
   double xo, yo;
   int i, j, k;
-  xo = (double)(x - 1) * spacing;
+  xo = static_cast<double>(x - 1) * spacing;
   xo = -(xo / 2.0);
-  yo = (double)(y - 1) * spacing;
+  yo = static_cast<double>(y - 1) * spacing;
   yo = -(yo / 2.0);
   dots.resize(x * y);
   k = 0;
   for (i = 0; i < x; i++)
     for (j = 0; j < y; j++) {
-      //			dots[k].xPos=(double)(rand()%(int)(spacing*x))+xo;
-      //			dots[k].yPos=(double)(rand()%(int)(spacing*y))+yo;
-      dots[k].xPos = xo + ((double)i * spacing);
-      dots[k].yPos = yo + ((double)j * spacing);
+      //			dots[k].xPos=static_cast<double>(rand()%static_cast<int>(spacing*x))+xo;
+      //			dots[k].yPos=static_cast<double>(rand()%static_cast<int>(spacing*y))+yo;
+      dots[k].xPos = xo + (static_cast<double>(i) * spacing);
+      dots[k].yPos = yo + (static_cast<double>(j) * spacing);
       //			cout<<dots[k].xPos<<" "<<dots[k].yPos<<endl;
       k++;
     }
@@ -502,7 +502,7 @@ void Agent::saveLogicTable(const char *filename) {
   fprintf(f, "s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,p15,,o1,o2\n");
   // fprintf(f,"s11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21,p22,p23,,o1,o2\n");
 
-  for (i = 0; i < (int)pow(2.0, 13.0); i++) {
+  for (i = 0; i < static_cast<int>(std::pow(2.0, 13.0)); i++) {
     std::map<std::vector<int>, int> outputCounts;
     const int NUM_REPEATS = 1001;
 
