@@ -87,7 +87,7 @@ void Agent::loadAgent(char *filename) {
   genome.clear();
   while (!(feof(f))) {
     fscanf(f, "%i	", &i);
-    genome.push_back((unsigned char)(i & 255));
+    genome.push_back((uint8_t)(i & 255));
   }
   // setupPhenotype();
 }
@@ -103,7 +103,7 @@ void Agent::loadAgentWithTrailer(char *filename) {
   fscanf(f, "%i	", &i);
   while (!(feof(f))) {
     fscanf(f, "%i	", &i);
-    genome.push_back((unsigned char)(i & 255));
+    genome.push_back((uint8_t)(i & 255));
   }
   // setupPhenotype();
 #endif
@@ -126,7 +126,7 @@ void Agent::inherit(Agent *from, double mutationRate, int theTime) {
   int nucleotides = static_cast<int>(from->genome.size());
   int i, s, o, w;
   // double localMutationRate=4.0/from->genome.size();
-  std::vector<unsigned char> buffer;
+  std::vector<uint8_t> buffer;
   born = theTime;
   ancestor = from;
   from->nrPointingAtMe++;
@@ -229,7 +229,7 @@ void Agent::setupMegaPhenotype(int howMany) {
 
 void Agent::retire() { retired = true; }
 
-unsigned char *Agent::getStatesPointer() { return states; }
+uint8_t *Agent::getStatesPointer() { return states; }
 
 void Agent::resetBrain() {
   for (uint8_t& state : states) {
@@ -261,7 +261,7 @@ void Agent::showBrain() {
 
 void Agent::initialize(int x, int y, int d) {
   // int i,j;
-  // unsigned char dummy;
+  // uint8_t dummy;
   xPos = x;
   yPos = y;
   direction = d;
